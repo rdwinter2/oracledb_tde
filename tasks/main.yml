@@ -1,0 +1,25 @@
+---
+
+- name: Make the TDE wallet directory
+  file:
+    path: "{{ tde_wallet_dir }}/{{ oracle_unqname }}"
+    state: directory
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_group }}"
+    mode: "u=rwx,g=,o="
+
+# sqlplus / as sysdba
+# alter system set sencryption key identified by "password";
+
+
+- name: Set the permissions on the TDE wallet
+  file:
+    path: "{{ tde_wallet_dir }}/{{ oracle_unqname }}/ewallet.p12"
+    state: file
+    owner: "{{ oracle_user }}"
+    group: "{{ oracle_group }}"
+    mode: "u=rw,g=,o="
+
+# "orapki wallet create -wallet {{ tde_wallet_dir }}/{{ oracle_unqname }} -auto_login
+# chattr +i {{ tde_wallet_dir }}/{{ oracle_unqname }}/ewallet.p12
+# chattr +i {{ tde_wallet_dir }}/{{ oracle_unqname }}/cwallet.sso
